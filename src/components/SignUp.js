@@ -2,8 +2,43 @@ import styled from "styled-components";
 import { useState } from "react";
 import logo from "../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import { signUpAPI } from "../services/trackit";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function SignUp() {
+  const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    name: "",
+    image: "",
+    password: "",
+  });
+
+  function handleSignUp(e) {
+    setIsLoading(true);
+    e.preventDefault();
+    console.log(formData);
+    signUpAPI(formData)
+      .then((res) => {
+        setTimeout(setIsLoading(false), 3000);
+        navigate("/");
+      })
+      .catch(() => {
+        setFormData({
+          email: "",
+          password: "",
+          name: "",
+          image: "",
+        });
+        alert("Erro na API...");
+        setTimeout(setIsLoading(false), 3000);
+      });
+  }
+
+  function handleInputChange(e) {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
 
   return (
     <>
@@ -13,35 +48,55 @@ export default function SignUp() {
             <img alt="LogoHome" src={logo} />
           </Logo>
           <Login>
-            <form>
+            <form onSubmit={handleSignUp}>
               <input
                 name="email"
                 placeholder="email"
                 type="email"
+                disabled={isLoading}
+                onChange={handleInputChange}
+                value={formData.email}
                 required
               />
               <input
                 name="password"
+                value={formData.password}
+                onChange={handleInputChange}
                 placeholder="senha"
                 type="password"
+                disabled={isLoading}
                 required
               />
-               <input
+              <input
                 name="name"
                 placeholder="nome"
+                value={formData.name}
+                onChange={handleInputChange}
                 type="text"
+                disabled={isLoading}
                 required
               />
-               <input
-                name="photo"
+              <input
+                name="image"
+                value={formData.imagee}
+                onChange={handleInputChange}
                 placeholder="imagem"
                 type="img"
+                disabled={isLoading}
                 required
               />
-              <button type="submit">Cadastrar</button>
+              <button type="submit">
+                {isLoading ? (
+                  <div>
+                    <ThreeDots color="#ffffff" />
+                  </div>
+                ) : (
+                  <p>Cadastrar</p>
+                )}
+              </button>
             </form>
           </Login>
-          <Link to={"/cadastro"}>
+          <Link to={"/"}>
             <SignIn>
               <h2>Já tem uma conta? Faça login!</h2>
             </SignIn>
@@ -95,6 +150,14 @@ const Login = styled.div`
       text-align: center;
       border: none;
       color: #ffffff;
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 

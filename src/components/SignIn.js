@@ -1,16 +1,20 @@
 import styled from "styled-components";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import logo from "../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
+import UserContext from "../contexts/UserContext.js";
+import axios from "axios";
 
 export default function Home() {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
+  const { token, setToken } = useContext(UserContext);
+  const objAPI= {email:email, password:password};
 
   function handleData(e) {
     e.preventDefault();
-    console.log(email,password)
-    
+    console.log(email, password);
   }
 
   return (
@@ -27,6 +31,7 @@ export default function Home() {
                 onChange={(e) => SetEmail(e.target.value)}
                 placeholder="email"
                 type="email"
+                disabled={isLoading}
                 required
               />
               <input
@@ -34,6 +39,7 @@ export default function Home() {
                 onChange={(e) => SetPassword(e.target.value)}
                 placeholder="senha"
                 type="password"
+                disabled={isLoading}
                 required
               />
               <button type="submit">Entrar</button>
