@@ -3,18 +3,34 @@ import { useState, useContext } from "react";
 import logo from "../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
-import axios from "axios";
+import { ThreeDots } from "react-loader-spinner";
+import { SignInAPI, signUpAPI } from "../services/trackit";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
   const { token, setToken } = useContext(UserContext);
-  const objAPI= {email:email, password:password};
+  const objAPI = { email: email, password: password };
+  const navigate = useNavigate();
 
   function handleData(e) {
     e.preventDefault();
-    console.log(email, password);
+    setIsLoading(true);
+    console.log(isLoading);
+
+    SignInAPI(objAPI)
+      .then((res) => {
+        setToken(res.data.token);
+        window.scrollTo(0, 0);
+        setTimeout(navigate("/hoje"), 2000);
+      })
+      .catch((res) => {
+        SetEmail("");
+        SetPassword("");
+        alert("Erro na API...");
+        setIsLoading(false);
+      });
   }
 
   return (
@@ -42,7 +58,15 @@ export default function Home() {
                 disabled={isLoading}
                 required
               />
-              <button type="submit">Entrar</button>
+              <button type="submit">
+                {isLoading ? (
+                  <div>
+                    <ThreeDots color="#ffffff" />
+                  </div>
+                ) : (
+                  <p>Entrar</p>
+                )}
+              </button>
             </form>
           </Login>
           <Link to={"/cadastro"}>
@@ -99,6 +123,14 @@ const Login = styled.div`
       text-align: center;
       border: none;
       color: #ffffff;
+      div {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 
