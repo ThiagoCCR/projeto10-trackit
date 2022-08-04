@@ -8,10 +8,10 @@ import Today from "./Today"
 import History from "./History";
 
 export default function App() {
-  const [token, setToken] = useState("");
+  const [userData, setUserData] = useState({image:"", token:""});
 
   return (
-    <UserContext.Provider value={{ token, setToken }}>
+    <UserContext.Provider value={{ userData, setUserData }}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />} />

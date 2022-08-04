@@ -4,13 +4,13 @@ import logo from "../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
 import { ThreeDots } from "react-loader-spinner";
-import { SignInAPI, signUpAPI } from "../services/trackit";
+import { SignInAPI } from "../services/trackit";
 
 export default function Home() {
   const [isLoading, setIsLoading] = useState(false);
   const [email, SetEmail] = useState("");
   const [password, SetPassword] = useState("");
-  const { token, setToken } = useContext(UserContext);
+  const { userData, setUserData } = useContext(UserContext);
   const objAPI = { email: email, password: password };
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ export default function Home() {
 
     SignInAPI(objAPI)
       .then((res) => {
-        setToken(res.data.token);
+        setUserData({...userData, image:res.data.image, token:res.data.token});
         window.scrollTo(0, 0);
         setTimeout(navigate("/hoje"), 2000);
       })
