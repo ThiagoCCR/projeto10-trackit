@@ -4,6 +4,8 @@ import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import UserContext from "../contexts/UserContext.js";
 import Habits from "./Habits"
+import Today from "./Today"
+import History from "./History";
 
 export default function App() {
   const [token, setToken] = useState("");
@@ -14,7 +16,9 @@ export default function App() {
         <Routes>
           <Route path="/" element={<SignIn />} />
           <Route path="/cadastro" element={<SignUp />} />
-          <Route path="/hoje" element={<Habits />} />
+          <Route path="/habitos" element={<Habits />} />
+          <Route path="/hoje" element={<Today />} />
+          <Route path="/historico" element={<History />} />
         </Routes>
       </BrowserRouter>
     </UserContext.Provider>
