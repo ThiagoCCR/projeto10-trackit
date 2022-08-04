@@ -2,19 +2,18 @@ import UserContext from "../contexts/UserContext.js";
 import { useContext } from "react";
 import styled from "styled-components";
 
+export default function Header() {
+  const { userData, setUserData } = useContext(UserContext);
 
-export default function Header(){
-
-    const { userData, setUserData } = useContext(UserContext);
-
-    return (<>
-     <Wrapper>
+  return (
+    <>
+      <Wrapper>
         <h1>TrackIt</h1>
         <img alt="UserImg" src={userData.image} />
       </Wrapper>
-    </>)
+    </>
+  );
 }
-
 
 const Wrapper = styled.div`
   display: flex;
