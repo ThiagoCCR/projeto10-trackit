@@ -1,10 +1,15 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import DayButton from "./DayButton";
-import { createHabit,GetHabitsAPI } from "../services/trackit";
+import { createHabit, GetHabitsAPI } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 
-export default function CreateHabit({ create, setCreate, setHabitsList, GetHabits }) {
+export default function CreateHabit({
+  create,
+  setCreate,
+  setHabitsList,
+  GetHabits,
+}) {
   const { userData, setUserData } = useContext(UserContext);
   const [name, setName] = useState("");
   const [selectedDays, setSelectedDays] = useState([]);
@@ -13,30 +18,31 @@ export default function CreateHabit({ create, setCreate, setHabitsList, GetHabit
   function handleForm(e) {
     e.preventDefault();
     const body = {
-        name,
-        days:selectedDays,
-    }
-    console.log(body)
+      name,
+      days: selectedDays,
+    };
+    console.log(body);
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
       },
     };
-    console.log(config)
+    console.log(config);
     //loading: TRUE
-    
+
     if (selectedDays.length === 0) {
       return alert("Você tem que escolher ao menos um dia");
     } else {
-      createHabit(body, config).then(()=>{
-        GetHabits()
-         //Loading: False
-      }).catch(()=>{
-        alert('Erro na criação do Quizz');
-         //Loading: False
-    })
+      createHabit(body, config)
+        .then(() => {
+          GetHabits();
+          //Loading: False
+        })
+        .catch(() => {
+          alert("Erro na criação do Quizz");
+          //Loading: False
+        });
     }
-   
   }
 
   return (
@@ -63,8 +69,8 @@ export default function CreateHabit({ create, setCreate, setHabitsList, GetHabit
             ))}
           </DaysContainer>
           <OptionsContainer>
-            <button onClick={() => setCreate(!create)}>Cancelar</button>
-            <button type="submit">Salvar</button>
+            <Cancel onClick={() => setCreate(!create)}>Cancelar</Cancel>
+            <Save type="submit">Salvar</Save>
           </OptionsContainer>
         </form>
       </Wrapper>
@@ -104,16 +110,48 @@ const DaysContainer = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   width: 100%;
-  padding-left: 9px;
   margin-top: 9px;
 `;
 
 const OptionsContainer = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: flex-end;
   align-items: flex-start;
   width: 100%;
   padding-left: 9px;
   margin-top: 9px;
+`;
+
+const Cancel = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lexend Deca", sans-serif;
+  margin-right: 5px;
+  background-color: #ffffff;
+  height: 35px;
+  color: #52b6ff;
+  width: 84px;
+  border-radius: 5px;
+  border: 1px solid #d5d5d5;
+  font-size: 16px;
+  border: none;
+`;
+
+const Save = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lexend Deca", sans-serif;
+  margin-right: 5px;
+  background-color: #52B6FF;
+  height: 35px;
+  color: #ffffff;
+  width: 84px;
+  border-radius: 5px;
+  border: 1px solid #d5d5d5;
+  font-size: 16px;
+  border: none;
+  margin-left: 10px;
 `;

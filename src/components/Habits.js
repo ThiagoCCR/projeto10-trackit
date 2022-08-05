@@ -40,10 +40,7 @@ export default function Habits() {
           <h2>MeusHabitos</h2>
           <button onClick={addHabit}>+</button>
         </Title>
-        <Content>
-          {habitsList.length === 0 ? (
-            <div>
-              {create ? (
+        {create ? (
                 <CreateHabit
                   setHabitsList={setHabitsList}
                   create={create}
@@ -53,6 +50,9 @@ export default function Habits() {
               ) : (
                 <div></div>
               )}
+        <Content>
+          {habitsList.length === 0 ? (
+            <div>
               <p>
                 Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
                 para começar a trackear!
@@ -60,15 +60,6 @@ export default function Habits() {
             </div>
           ) : (
             <div>
-              {create ? (
-                <CreateHabit
-                  GetHabits={GetHabits}
-                  create={create}
-                  setCreate={setCreate}
-                />
-              ) : (
-                <div></div>
-              )}
               <div></div>
             </div>
           )}
