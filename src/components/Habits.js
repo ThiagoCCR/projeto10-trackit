@@ -56,7 +56,7 @@ export default function Habits() {
         <Content>
           {habitsList === null ? (
             <div>
-              <ThreeDots color="#ffffff" />
+              <ThreeDots color="#52B6FF" />
             </div>
           ) : (
             <HabitsContent habitsList={habitsList} GetHabit={GetHabits} />

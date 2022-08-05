@@ -1,7 +1,27 @@
 import styled from "styled-components";
+import { deleteHabitAPI } from "../services/trackit";
+import UserContext from "../contexts/UserContext";
+import { useContext } from "react";
 
 export default function HabitsContent({ habitsList, GetHabit }) {
-  console.log(habitsList);
+  const { userData, setUserData } = useContext(UserContext);
+
+  function deleteHabit(id) {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    };
+    if (window.confirm("Tem certeza que deseja excluir essa hábito")) {
+      deleteHabitAPI(id, config).then(()=>{
+        alert("Habito deletado com sucesso!");
+        GetHabit();
+      }).catch((err)=>{
+        alert('Erro ao deletar o Habito')
+      })
+      
+    }
+  }
 
   return (
     <>
@@ -12,14 +32,34 @@ export default function HabitsContent({ habitsList, GetHabit }) {
               <h2>{value.name}</h2>
             </div>
             <DaysContainer>
-              <Day name={"1"} selected={value.days.includes(1)}>D</Day>
-              <Day name={"2"} selected={value.days.includes(2)}>S</Day>
-              <Day name={"3"} selected={value.days.includes(3)}>T</Day>
-              <Day name={"4"} selected={value.days.includes(4)}>Q</Day>
-              <Day name={"5"} selected={value.days.includes(5)}>Q</Day>
-              <Day name={"6"} selected={value.days.includes(6)}>S</Day>
-              <Day name={"7"} selected={value.days.includes(7)}>S</Day>
+              <Day name={"1"} selected={value.days.includes(1)}>
+                D
+              </Day>
+              <Day name={"2"} selected={value.days.includes(2)}>
+                S
+              </Day>
+              <Day name={"3"} selected={value.days.includes(3)}>
+                T
+              </Day>
+              <Day name={"4"} selected={value.days.includes(4)}>
+                Q
+              </Day>
+              <Day name={"5"} selected={value.days.includes(5)}>
+                Q
+              </Day>
+              <Day name={"6"} selected={value.days.includes(6)}>
+                S
+              </Day>
+              <Day name={"7"} selected={value.days.includes(7)}>
+                S
+              </Day>
             </DaysContainer>
+            <IconContainer>
+              <ion-icon
+                onClick={() => deleteHabit(value.id)}
+                name="trash-outline"
+              ></ion-icon>
+            </IconContainer>
           </HabitBox>
         ))}
       </div>
@@ -37,6 +77,7 @@ const HabitBox = styled.div`
   flex-direction: column;
   align-items: flex-start;
   padding: 15px;
+  position: relative;
   h2 {
     font-family: "Lexend Deca", sans-serif;
     font-size: 20px;
@@ -65,4 +106,11 @@ const DaysContainer = styled.div`
   display: flex;
   flex-direction: row;
   margin-top: 5px;
+`;
+
+const IconContainer = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  font-size: 18px;
 `;

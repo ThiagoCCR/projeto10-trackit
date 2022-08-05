@@ -32,5 +32,12 @@ function createHabit(body, config) {
   return promise;
 }
 
+function deleteHabitAPI(id, config){
+  const promise = axios.delete(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,
+    config
+  );
+  return promise;
+}
 
-export { signUpAPI, SignInAPI, GetHabitsAPI, createHabit };
+export { signUpAPI, SignInAPI, GetHabitsAPI, createHabit, deleteHabitAPI };
