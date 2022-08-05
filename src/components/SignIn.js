@@ -24,10 +24,10 @@ export default function Home() {
         window.scrollTo(0, 0);
         setTimeout(navigate("/habitos"), 2000);
       })
-      .catch((res) => {
+      .catch((error) => {
         SetEmail("");
         SetPassword("");
-        alert("Erro na API...");
+        alert(error);
         setIsLoading(false);
       });
   }

@@ -16,13 +16,21 @@ function SignInAPI(data) {
   return promise;
 }
 
-function GetHabitsAPI(data) {
-  console.log(data)
+function GetHabitsAPI(config) {
   const promise = axios.get(
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
-    data
+    config
   );
   return promise;
 }
 
-export { signUpAPI, SignInAPI, GetHabitsAPI };
+function createHabit(body, config) {
+  const promise = axios.post(
+    "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
+    body, config
+  );
+  return promise;
+}
+
+
+export { signUpAPI, SignInAPI, GetHabitsAPI, createHabit };

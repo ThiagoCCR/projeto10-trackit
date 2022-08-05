@@ -4,14 +4,17 @@ import Header from "./Header";
 import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { GetHabitsAPI } from "../services/trackit";
+import CreateHabit from "./CreateHabit";
 
 export default function Habits() {
   const { userData, setUserData } = useContext(UserContext);
   const [habitsList, setHabitsList] = useState([]);
+  const [render, setRender] = useState(false);
   const [create, setCreate] = useState(false);
-  console.log(userData);
 
-  useEffect(() => {
+  useEffect(() => GetHabits(), []);
+
+  function GetHabits() {
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
@@ -19,13 +22,14 @@ export default function Habits() {
     };
     GetHabitsAPI(config)
       .then((res) => {
-        setHabitsList(res.data);
-        console.log(res.data);
+        // setHabitsList(res.data);
       })
-      .catch(() => alert("erro na API"));
-  }, []);
+      .catch((error) => console.log(error));
+  }
 
-  function addHabit() {}
+  function addHabit() {
+    setCreate(!create);
+  }
 
   return (
     <>
@@ -38,14 +42,33 @@ export default function Habits() {
         <Content>
           {habitsList.length === 0 ? (
             <div>
+              {create ? (
+                <CreateHabit
+                  setHabitsList={setHabitsList}
+                  create={create}
+                  setCreate={setCreate}
+                />
+              ) : (
+                <div></div>
+              )}
               <p>
                 Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
                 para começar a trackear!
               </p>
-              {create ? <div></div> : <div>{habitsList.map((val) => val)}</div>}
             </div>
           ) : (
-            <div></div>
+            <div>
+              {create ? (
+                <CreateHabit
+                  GetHabits={GetHabits}
+                  create={create}
+                  setCreate={setCreate}
+                />
+              ) : (
+                <div></div>
+              )}
+              <div></div>
+            </div>
           )}
         </Content>
       </Wrapper>
