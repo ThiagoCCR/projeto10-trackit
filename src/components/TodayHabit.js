@@ -4,21 +4,20 @@ import { checkHabitAPI, uncheckHabitAPI } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 
 export default function TodayHabit({ data }) {
-
   const [checked, setChecked] = useState(false);
   const { userData } = useContext(UserContext);
 
-  useEffect(() => {
-
+  function teste() {
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
       },
     };
-
+    console.log(data.id)
+    console.log(config)
+    setChecked(!checked);
     checked ? checkHabitAPI(data.id, config) : uncheckHabitAPI(data.id, config);
-
-  }, [checked]);
+  }
 
   return (
     <Wrapper>
@@ -27,8 +26,8 @@ export default function TodayHabit({ data }) {
         <p>Sua Sequência atual: {data.currentSequence}</p>
         <p>Seu recorde: {data.highestSequence}</p>
       </TextContainer>
-      <IconContainer checked={checked} onClick={() => {setChecked(!checked); }>
-        <ion-icon name="checkmark-sharp"></ion-icon>
+      <IconContainer checked={checked}>
+        <ion-icon name="checkmark-sharp" onClick={() => teste()}></ion-icon>
       </IconContainer>
     </Wrapper>
   );

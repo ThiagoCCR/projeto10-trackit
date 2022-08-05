@@ -23,7 +23,7 @@ export default function Today() {
         setTodayHabits(res.data);
       })
       .catch((error) => {
-        alert("Erro em buscar os erros de hoje...");
+        alert("Erro em buscar os habitos de hoje...");
       });
   }, []);
 
