@@ -4,7 +4,7 @@ import DayButton from "./DayButton";
 import { createHabit,GetHabitsAPI } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 
-export default function CreateHabit({ create, setCreate, setHabitsList }) {
+export default function CreateHabit({ create, setCreate, setHabitsList, GetHabits }) {
   const { userData, setUserData } = useContext(UserContext);
   const [name, setName] = useState("");
   const [selectedDays, setSelectedDays] = useState([]);
@@ -28,8 +28,8 @@ export default function CreateHabit({ create, setCreate, setHabitsList }) {
     if (selectedDays.length === 0) {
       return alert("Você tem que escolher ao menos um dia");
     } else {
-      createHabit(body, config).then({
-        
+      createHabit(body, config).then(()=>{
+        GetHabits()
          //Loading: False
       }).catch(()=>{
         alert('Erro na criação do Quizz');

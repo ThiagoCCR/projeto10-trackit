@@ -22,7 +22,8 @@ export default function Habits() {
     };
     GetHabitsAPI(config)
       .then((res) => {
-        // setHabitsList(res.data);
+        console.log(res.data)
+      setHabitsList(res.data);
       })
       .catch((error) => console.log(error));
   }
@@ -47,6 +48,7 @@ export default function Habits() {
                   setHabitsList={setHabitsList}
                   create={create}
                   setCreate={setCreate}
+                  GetHabits={GetHabits}
                 />
               ) : (
                 <div></div>
