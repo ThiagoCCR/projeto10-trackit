@@ -27,12 +27,13 @@ function GetHabitsAPI(config) {
 function createHabit(body, config) {
   const promise = axios.post(
     "https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits",
-    body, config
+    body,
+    config
   );
   return promise;
 }
 
-function deleteHabitAPI(id, config){
+function deleteHabitAPI(id, config) {
   const promise = axios.delete(
     `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}`,
     config
@@ -40,4 +41,37 @@ function deleteHabitAPI(id, config){
   return promise;
 }
 
-export { signUpAPI, SignInAPI, GetHabitsAPI, createHabit, deleteHabitAPI };
+function gettodayHabits(config) {
+  const promise = axios.get(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/today`,
+    config
+  );
+  return promise;
+}
+
+function checkHabitAPI(id, config) {
+  const promise = axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,
+    config
+  );
+  return promise;
+}
+
+function uncheckHabitAPI(id, config) {
+  const promise = axios.post(
+    `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,
+    config
+  );
+  return promise;
+}
+
+export {
+  signUpAPI,
+  gettodayHabits,
+  SignInAPI,
+  GetHabitsAPI,
+  createHabit,
+  deleteHabitAPI,
+  checkHabitAPI,
+  uncheckHabitAPI,
+};

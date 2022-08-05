@@ -38,7 +38,7 @@ export default function Habits() {
       <Header />
       <Wrapper>
         <Title>
-          <h2>MeusHabitos</h2>
+          <h2>Meus Habitos</h2>
           <button onClick={addHabit}>+</button>
         </Title>
         {create ? (

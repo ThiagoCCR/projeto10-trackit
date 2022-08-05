@@ -22,7 +22,7 @@ export default function Home() {
       .then((res) => {
         setUserData({...userData, image:res.data.image, token:res.data.token});
         window.scrollTo(0, 0);
-        setTimeout(navigate("/habitos"), 2000);
+        setTimeout(navigate("/hoje"), 2000);
       })
       .catch((error) => {
         SetEmail("");
