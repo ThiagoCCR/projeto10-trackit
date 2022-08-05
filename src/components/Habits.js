@@ -5,12 +5,14 @@ import { useState, useEffect, useContext } from "react";
 import UserContext from "../contexts/UserContext";
 import { GetHabitsAPI } from "../services/trackit";
 import CreateHabit from "./CreateHabit";
+import { ThreeDots } from "react-loader-spinner";
+import HabitsContent from "./HabitsContent";
 
 export default function Habits() {
   const { userData, setUserData } = useContext(UserContext);
-  const [habitsList, setHabitsList] = useState([]);
-  const [render, setRender] = useState(false);
+  const [habitsList, setHabitsList] = useState(null);
   const [create, setCreate] = useState(false);
+  const [name, setName] = useState("");
 
   useEffect(() => GetHabits(), []);
 
@@ -22,8 +24,7 @@ export default function Habits() {
     };
     GetHabitsAPI(config)
       .then((res) => {
-        console.log(res.data)
-      setHabitsList(res.data);
+        setHabitsList(res.data);
       })
       .catch((error) => console.log(error));
   }
@@ -41,27 +42,24 @@ export default function Habits() {
           <button onClick={addHabit}>+</button>
         </Title>
         {create ? (
-                <CreateHabit
-                  setHabitsList={setHabitsList}
-                  create={create}
-                  setCreate={setCreate}
-                  GetHabits={GetHabits}
-                />
-              ) : (
-                <div></div>
-              )}
+          <CreateHabit
+            setHabitsList={setHabitsList}
+            create={create}
+            setCreate={setCreate}
+            GetHabits={GetHabits}
+            name={name}
+            setName={setName}
+          />
+        ) : (
+          <div></div>
+        )}
         <Content>
-          {habitsList.length === 0 ? (
+          {habitsList === null ? (
             <div>
-              <p>
-                Você não tem nenhum hábito cadastrado ainda. Adicione um hábito
-                para começar a trackear!
-              </p>
+              <ThreeDots color="#ffffff" />
             </div>
           ) : (
-            <div>
-              <div></div>
-            </div>
+            <HabitsContent habitsList={habitsList} GetHabit={GetHabits} />
           )}
         </Content>
       </Wrapper>
@@ -81,6 +79,8 @@ const Wrapper = styled.div`
   padding-top: 100px;
   padding-left: 20px;
   padding-right: 20px;
+  overflow-y: scroll;
+  padding-bottom: 100px;
 `;
 
 const Title = styled.div`

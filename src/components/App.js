@@ -9,9 +9,10 @@ import History from "./History";
 
 export default function App() {
   const [userData, setUserData] = useState({image:"", token:""});
+  const [loading, setLoading ] = useState(false)
 
   return (
-    <UserContext.Provider value={{ userData, setUserData }}>
+    <UserContext.Provider value={{ userData, setUserData, loading,  setLoading}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />} />

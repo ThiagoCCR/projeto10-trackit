@@ -1,17 +1,20 @@
 import { useState, useContext } from "react";
 import styled from "styled-components";
 import DayButton from "./DayButton";
-import { createHabit, GetHabitsAPI } from "../services/trackit";
+import { createHabit } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function CreateHabit({
   create,
   setCreate,
   setHabitsList,
   GetHabits,
+  name,
+  setName
 }) {
-  const { userData, setUserData } = useContext(UserContext);
-  const [name, setName] = useState("");
+  const { loading, setLoading } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [selectedDays, setSelectedDays] = useState([]);
   const days = ["D", "S", "T", "Q", "Q", "S", "S"];
 
@@ -21,26 +24,27 @@ export default function CreateHabit({
       name,
       days: selectedDays,
     };
-    console.log(body);
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
       },
     };
-    console.log(config);
-    //loading: TRUE
+    setLoading(true);
 
     if (selectedDays.length === 0) {
+      setLoading(false);
       return alert("Você tem que escolher ao menos um dia");
     } else {
       createHabit(body, config)
         .then(() => {
           GetHabits();
-          //Loading: False
+          setName("");
+          setLoading(false);
+          setCreate(!create);
         })
         .catch(() => {
           alert("Erro na criação do Quizz");
-          //Loading: False
+          setLoading(false);
         });
     }
   }
@@ -55,6 +59,7 @@ export default function CreateHabit({
             value={name}
             placeholder="nome do hábito"
             onChange={(e) => setName(e.target.value)}
+            disabled={loading}
             required
           />
           <DaysContainer>
@@ -69,8 +74,14 @@ export default function CreateHabit({
             ))}
           </DaysContainer>
           <OptionsContainer>
-            <Cancel onClick={() => setCreate(!create)}>Cancelar</Cancel>
-            <Save type="submit">Salvar</Save>
+            <Cancel disabled ={loading} onClick={() => setCreate(!create)}>Cancelar</Cancel>
+            <Save disabled ={loading} type="submit">{loading ? (
+                  <div>
+                    <ThreeDots color="#ffffff" />
+                  </div>
+                ) : (
+                  <p>Salvar</p>
+                )}</Save>
           </OptionsContainer>
         </form>
       </Wrapper>
@@ -89,6 +100,7 @@ const Wrapper = styled.div`
   justify-content: center;
   align-items: center;
   padding: 10px;
+  margin-top: 20px;
 
   input {
     font-family: "Lexend Deca", sans-serif;
@@ -145,7 +157,7 @@ const Save = styled.button`
   align-items: center;
   font-family: "Lexend Deca", sans-serif;
   margin-right: 5px;
-  background-color: #52B6FF;
+  background-color: #52b6ff;
   height: 35px;
   color: #ffffff;
   width: 84px;
