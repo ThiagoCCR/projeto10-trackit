@@ -11,7 +11,9 @@ export default function Today() {
   const { userData, setUserData } = useContext(UserContext);
   const [todayHabits, setTodayHabits] = useState(null);
 
-  useEffect(() => {
+  useEffect(() => getHabits(), []);
+
+  function getHabits() {
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
@@ -19,13 +21,13 @@ export default function Today() {
     };
     gettodayHabits(config)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         setTodayHabits(res.data);
       })
       .catch((error) => {
         alert("Erro em buscar os habitos de hoje...");
       });
-  }, []);
+  }
 
   return (
     <>
@@ -41,7 +43,11 @@ export default function Today() {
               <ThreeDots color="#52B6FF" />
             </div>
           ) : (
-            <div>{todayHabits.map((value, i) => <TodayHabit data={value}/>)}</div>
+            <div>
+              {todayHabits.map((value, i) => (
+                <TodayHabit data={value} getHabits={getHabits}/>
+              ))}
+            </div>
           )}
         </Content>
       </Wrapper>
@@ -85,14 +91,13 @@ const Title = styled.div`
     font-weight: 400;
     color: #126ba5;
   }
-  p{
+  p {
     font-family: "Lexend Deca", sans-serif;
     font-size: 18px;
     font-weight: 400;
-    color: #BABABA;
+    color: #bababa;
     margin-top: 5px;
   }
-
 `;
 
 const Content = styled.div`

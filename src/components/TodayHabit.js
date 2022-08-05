@@ -1,22 +1,34 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { checkHabitAPI, uncheckHabitAPI } from "../services/trackit";
+import { checkHabitAPI, uncheckHabitAPI, gettodayHabits } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 
-export default function TodayHabit({ data }) {
-  const [checked, setChecked] = useState(false);
+export default function TodayHabit({ data, getHabits }) {
+  const [checked, setChecked] = useState(data.done);
   const { userData } = useContext(UserContext);
 
-  function teste() {
+  function checkIcon() {
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
       },
     };
-    console.log(data.id)
-    console.log(config)
+
     setChecked(!checked);
-    checked ? checkHabitAPI(data.id, config) : uncheckHabitAPI(data.id, config);
+
+    if (checked === false) {
+      console.log('oi')
+      const body = {
+        done: true
+      }
+      checkHabitAPI(data.id, body, config).then(()=>getHabits(config)).catch((error)=>alert(error));
+    } else if (checked === true) {
+      const body = {
+        done: true
+      }
+      uncheckHabitAPI(data.id, body, config).then(()=>getHabits(config)).catch((error)=>alert(error));
+    }
+
   }
 
   return (
@@ -27,7 +39,7 @@ export default function TodayHabit({ data }) {
         <p>Seu recorde: {data.highestSequence}</p>
       </TextContainer>
       <IconContainer checked={checked}>
-        <ion-icon name="checkmark-sharp" onClick={() => teste()}></ion-icon>
+        <ion-icon name="checkmark-sharp" onClick={() => checkIcon()}></ion-icon>
       </IconContainer>
     </Wrapper>
   );

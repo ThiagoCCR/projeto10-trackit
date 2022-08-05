@@ -49,17 +49,19 @@ function gettodayHabits(config) {
   return promise;
 }
 
-function checkHabitAPI(id, config) {
+function checkHabitAPI(id, body, config) {
   const promise = axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/check`,
+    body,
     config
   );
   return promise;
 }
 
-function uncheckHabitAPI(id, config) {
+function uncheckHabitAPI(id, body, config) {
   const promise = axios.post(
     `https://mock-api.bootcamp.respondeai.com.br/api/v2/trackit/habits/${id}/uncheck`,
+    body,
     config
   );
   return promise;
