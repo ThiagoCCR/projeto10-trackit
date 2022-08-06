@@ -7,22 +7,31 @@ import { gettodayHabits } from "../services/trackit";
 import { ThreeDots } from "react-loader-spinner";
 import TodayHabit from "./TodayHabit";
 import dayjs from "dayjs";
-import locale from "dayjs/locale/pt-br"
-
+import locale from "dayjs/locale/pt-br";
 
 export default function Today() {
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData, setUserData, progress, setProgress } =
+    useContext(UserContext);
   const [todayHabits, setTodayHabits] = useState(null);
-
+  const [checkedHabits, setCheckedHabits] = useState(0);
   const Now = dayjs().locale("pt-br");
-  const date = FormatDate(Now)
+  const date = FormatDate(Now);
 
+  function calculateProgress() {
+    if (todayHabits !== null) {
+      console.log(progress);
+      console.log(checkedHabits);
+      const total = todayHabits.length;
+      const result = (checkedHabits / total) * 100;
+      setProgress(result);
+    }
+    return;
+  }
 
-  function FormatDate(str) {
-    str = str.format("dddd").replace("-feira", '')
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
-
+  function FormatDate(string) {
+    string = string.format("dddd").replace("-feira", "");
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   useEffect(() => getHabits(), []);
 
@@ -34,12 +43,15 @@ export default function Today() {
     };
     gettodayHabits(config)
       .then((res) => {
-        console.log(res.data);
+        console.log(res.data)
         setTodayHabits(res.data);
+        setCheckedHabits(res.data.filter((val) => val.done === true).length);
       })
       .catch((error) => {
         alert("Erro em buscar os habitos de hoje...");
       });
+
+    calculateProgress();
   }
 
   return (
@@ -47,8 +59,11 @@ export default function Today() {
       <Header />
       <Wrapper>
         <Title>
-          <h2> {date}, {Now.format('DD/MM')}</h2>
-          <p>Nenhum hábito concluído ainda</p>
+          <h2>
+            {" "}
+            {date}, {Now.format("DD/MM")}
+          </h2>
+          <p>{progress.toFixed(0)}% das tarefas</p>
         </Title>
         <Content>
           {todayHabits === null ? (
@@ -58,7 +73,14 @@ export default function Today() {
           ) : (
             <div>
               {todayHabits.map((value, i) => (
-                <TodayHabit data={value} getHabits={getHabits}/>
+                <TodayHabit
+                  calculateProgress={calculateProgress}
+                  checkedHabits={checkedHabits}
+                  setCheckedHabits={setCheckedHabits}
+                  key={i}
+                  data={value}
+                  getHabits={getHabits}
+                />
               ))}
             </div>
           )}

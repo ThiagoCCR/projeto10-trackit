@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useDebugValue } from "react";
 import styled from "styled-components";
 import {
   checkHabitAPI,
@@ -7,7 +7,13 @@ import {
 } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 
-export default function TodayHabit({ data, getHabits }) {
+export default function TodayHabit({
+  data,
+  getHabits,
+  checkedHabits,
+  setCheckedHabits,
+  calculateProgress,
+}) {
   const [checked, setChecked] = useState(data.done);
   const { userData } = useContext(UserContext);
 
@@ -21,7 +27,6 @@ export default function TodayHabit({ data, getHabits }) {
     setChecked(!checked);
 
     if (checked === false) {
-      console.log("oi");
       const body = {
         done: true,
       };
@@ -48,7 +53,9 @@ export default function TodayHabit({ data, getHabits }) {
         </Info>
         <Info checked={checked}>
           <p>Seu recorde: </p>
-          <Colored checked={checked}>{data.currentSequence}</Colored>
+          <Record record={data.highestSequence} current={data.currentSequence}>
+            {data.highestSequence}
+          </Record>
         </Info>
       </TextContainer>
       <IconContainer checked={checked}>
@@ -109,5 +116,16 @@ const Info = styled.div`
 
 const Colored = styled.p`
   color: ${(props) => (props.checked ? "#8FC549" : "#666666")} !important;
+  margin-left: 2px;
+`;
+
+const Record = styled.p`
+  color: ${(props) => {
+    if (props.record === props.current && props.record > 0) {
+      return "#8FC549";
+    } else {
+      return "#666666";
+    }
+  }} !important;
   margin-left: 2px;
 `;
