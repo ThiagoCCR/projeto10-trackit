@@ -6,10 +6,23 @@ import Menu from "./Menu";
 import { gettodayHabits } from "../services/trackit";
 import { ThreeDots } from "react-loader-spinner";
 import TodayHabit from "./TodayHabit";
+import dayjs from "dayjs";
+import locale from "dayjs/locale/pt-br"
+
 
 export default function Today() {
   const { userData, setUserData } = useContext(UserContext);
   const [todayHabits, setTodayHabits] = useState(null);
+
+  const Now = dayjs().locale("pt-br");
+  const date = FormatDate(Now)
+
+
+  function FormatDate(str) {
+    str = str.format("dddd").replace("-feira", '')
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 
   useEffect(() => getHabits(), []);
 
@@ -34,7 +47,7 @@ export default function Today() {
       <Header />
       <Wrapper>
         <Title>
-          <h2>Hoje</h2>
+          <h2> {date}, {Now.format('DD/MM')}</h2>
           <p>Nenhum hábito concluído ainda</p>
         </Title>
         <Content>

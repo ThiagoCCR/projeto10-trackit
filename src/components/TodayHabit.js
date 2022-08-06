@@ -1,6 +1,10 @@
 import { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
-import { checkHabitAPI, uncheckHabitAPI, gettodayHabits } from "../services/trackit";
+import {
+  checkHabitAPI,
+  uncheckHabitAPI,
+  gettodayHabits,
+} from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 
 export default function TodayHabit({ data, getHabits }) {
@@ -17,26 +21,35 @@ export default function TodayHabit({ data, getHabits }) {
     setChecked(!checked);
 
     if (checked === false) {
-      console.log('oi')
+      console.log("oi");
       const body = {
-        done: true
-      }
-      checkHabitAPI(data.id, body, config).then(()=>getHabits(config)).catch((error)=>alert(error));
+        done: true,
+      };
+      checkHabitAPI(data.id, body, config)
+        .then(() => getHabits(config))
+        .catch((error) => alert(error));
     } else if (checked === true) {
       const body = {
-        done: true
-      }
-      uncheckHabitAPI(data.id, body, config).then(()=>getHabits(config)).catch((error)=>alert(error));
+        done: true,
+      };
+      uncheckHabitAPI(data.id, body, config)
+        .then(() => getHabits(config))
+        .catch((error) => alert(error));
     }
-
   }
 
   return (
     <Wrapper>
       <TextContainer>
         <h1>{data.name}</h1>
-        <p>Sua Sequência atual: {data.currentSequence}</p>
-        <p>Seu recorde: {data.highestSequence}</p>
+        <Info checked={checked}>
+          <p>Sua Sequência atual: </p>
+          <Colored checked={checked}> {data.currentSequence}</Colored>
+        </Info>
+        <Info checked={checked}>
+          <p>Seu recorde: </p>
+          <Colored checked={checked}>{data.currentSequence}</Colored>
+        </Info>
       </TextContainer>
       <IconContainer checked={checked}>
         <ion-icon name="checkmark-sharp" onClick={() => checkIcon()}></ion-icon>
@@ -66,10 +79,6 @@ const TextContainer = styled.div`
     font-size: 20px;
     line-height: 30px;
   }
-  p {
-    font-size: 13px !important;
-    line-height: 16px;
-  }
 `;
 
 const IconContainer = styled.div`
@@ -85,4 +94,20 @@ const IconContainer = styled.div`
     font-size: 50px;
     color: #ffffff;
   }
+`;
+
+const Info = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  p {
+    font-size: 13px !important;
+    line-height: 16px;
+  }
+`;
+
+const Colored = styled.p`
+  color: ${(props) => (props.checked ? "#8FC549" : "#666666")} !important;
+  margin-left: 2px;
 `;
