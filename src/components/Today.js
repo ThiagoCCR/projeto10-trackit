@@ -17,16 +17,15 @@ export default function Today() {
   const Now = dayjs().locale("pt-br");
   const date = FormatDate(Now);
 
-  function calculateProgress() {
+  useEffect(() => {
     if (todayHabits !== null) {
-      console.log(progress);
       console.log(checkedHabits);
       const total = todayHabits.length;
       const result = (checkedHabits / total) * 100;
       setProgress(result);
     }
     return;
-  }
+  }, [todayHabits, checkedHabits, setProgress]);
 
   function FormatDate(string) {
     string = string.format("dddd").replace("-feira", "");
@@ -43,27 +42,29 @@ export default function Today() {
     };
     gettodayHabits(config)
       .then((res) => {
-        console.log(res.data)
+        console.log(res.data);
         setTodayHabits(res.data);
         setCheckedHabits(res.data.filter((val) => val.done === true).length);
       })
       .catch((error) => {
         alert("Erro em buscar os habitos de hoje...");
       });
-
-    calculateProgress();
   }
 
   return (
     <>
       <Header />
       <Wrapper>
-        <Title>
+        <Title progress={progress}>
           <h2>
             {" "}
             {date}, {Now.format("DD/MM")}
           </h2>
-          <p>{progress.toFixed(0)}% das tarefas</p>
+          <p>
+            {progress === 0
+              ? "Nenhum hábito concluído ainda"
+              : progress.toFixed(0) + "% dos hábitos concluídos"}
+          </p>
         </Title>
         <Content>
           {todayHabits === null ? (
@@ -74,7 +75,6 @@ export default function Today() {
             <div>
               {todayHabits.map((value, i) => (
                 <TodayHabit
-                  calculateProgress={calculateProgress}
                   checkedHabits={checkedHabits}
                   setCheckedHabits={setCheckedHabits}
                   key={i}
@@ -130,7 +130,7 @@ const Title = styled.div`
     font-family: "Lexend Deca", sans-serif;
     font-size: 18px;
     font-weight: 400;
-    color: #bababa;
+    color: ${(props) => (props.progress > 0 ? "#8FC549" : "#bababa")}; ;
     margin-top: 5px;
   }
 `;
