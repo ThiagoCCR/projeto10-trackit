@@ -32,25 +32,25 @@ export default function HabitsContent({ habitsList, GetHabit }) {
               <h2>{value.name}</h2>
             </div>
             <DaysContainer>
-              <Day name={"1"} selected={value.days.includes(1)}>
+              <Day name={"0"} selected={value.days.includes(0)}>
                 D
               </Day>
-              <Day name={"2"} selected={value.days.includes(2)}>
+              <Day name={"1"} selected={value.days.includes(1)}>
                 S
               </Day>
-              <Day name={"3"} selected={value.days.includes(3)}>
+              <Day name={"2"} selected={value.days.includes(2)}>
                 T
+              </Day>
+              <Day name={"3"} selected={value.days.includes(3)}>
+                Q
               </Day>
               <Day name={"4"} selected={value.days.includes(4)}>
                 Q
               </Day>
               <Day name={"5"} selected={value.days.includes(5)}>
-                Q
-              </Day>
-              <Day name={"6"} selected={value.days.includes(6)}>
                 S
               </Day>
-              <Day name={"7"} selected={value.days.includes(7)}>
+              <Day name={"6"} selected={value.days.includes(6)}>
                 S
               </Day>
             </DaysContainer>

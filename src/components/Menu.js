@@ -11,7 +11,7 @@ import UserContext from "../contexts/UserContext";
 
 export default function Menu() {
   const navigate = useNavigate();
-  const { progress, setProgress } = useContext(UserContext);
+  const { progress } = useContext(UserContext);
 
   return (
     <Wrapper>

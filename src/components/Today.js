@@ -1,5 +1,5 @@
 import UserContext from "../contexts/UserContext";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "./Header";
 import Menu from "./Menu";
@@ -19,12 +19,12 @@ export default function Today() {
 
   useEffect(() => {
     if (todayHabits !== null) {
-      console.log(checkedHabits);
       const total = todayHabits.length;
       const result = (checkedHabits / total) * 100;
-      setProgress(result);
+      if (!isNaN(result)) {
+        setProgress(result);
+      }
     }
-    return;
   }, [todayHabits, checkedHabits, setProgress]);
 
   function FormatDate(string) {
@@ -32,9 +32,7 @@ export default function Today() {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
 
-  useEffect(() => getHabits(), []);
-
-  function getHabits() {
+  const getHabits = useCallback(() => {
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
@@ -49,7 +47,9 @@ export default function Today() {
       .catch((error) => {
         alert("Erro em buscar os habitos de hoje...");
       });
-  }
+  }, [userData.token]);
+
+  useEffect(() => getHabits(), [getHabits]);
 
   return (
     <>
@@ -130,7 +130,7 @@ const Title = styled.div`
     font-family: "Lexend Deca", sans-serif;
     font-size: 18px;
     font-weight: 400;
-    color: ${(props) => (props.progress > 0 ? "#8FC549" : "#bababa")}; ;
+    color: ${(props) => (props.progress > 0 ? "#8FC549" : "#bababa")};
     margin-top: 5px;
   }
 `;

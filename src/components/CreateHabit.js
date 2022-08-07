@@ -24,6 +24,7 @@ export default function CreateHabit({
       name,
       days: selectedDays,
     };
+    console.log({body})
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
@@ -36,7 +37,8 @@ export default function CreateHabit({
       return alert("Você tem que escolher ao menos um dia");
     } else {
       createHabit(body, config)
-        .then(() => {
+        .then((res) => {
+          console.log({res})
           GetHabits();
           setName("");
           setLoading(false);
@@ -68,7 +70,7 @@ export default function CreateHabit({
                 selectedDays={selectedDays}
                 setSelectedDays={setSelectedDays}
                 key={i}
-                number={i + 1}
+                number={i}
                 day={value}
               />
             ))}
