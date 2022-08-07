@@ -14,9 +14,10 @@ export default function CreateHabit({
   name,
   setName
 }) {
-  const { loading, setLoading } = useContext(UserContext);
+  const { loading, setLoading, selectedDays, setSelectedDays } = useContext(UserContext);
   const { userData } = useContext(UserContext);
-  const [selectedDays, setSelectedDays] = useState([]);
+
+  console.log(selectedDays)
 
   function handleForm(e) {
     e.preventDefault();
@@ -65,11 +66,10 @@ export default function CreateHabit({
           <DaysContainer>
             {days.map((value, i) => (
               <DayButton
-                selectedDays={selectedDays}
-                setSelectedDays={setSelectedDays}
                 key={i}
                 number={i}
                 day={value}
+                isSelected = {selectedDays.includes(i)}
               />
             ))}
           </DaysContainer>

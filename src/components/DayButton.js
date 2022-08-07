@@ -1,19 +1,25 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import styled from "styled-components";
+import UserContext from "../contexts/UserContext";
+
+
 
 export default function DayButton({
   day,
-  selectedDays,
-  setSelectedDays,
   number,
+  isSelected
 }) {
-  const [selected, setSelected] = useState(false);
+  const {selectedDays, setSelectedDays } = useContext(UserContext);
+  const [selected, setSelected] = useState(isSelected);
 
   function handleDay(number) {
+    const selectedSorted = [...selectedDays,number].sort();
+    console.log(selectedSorted)
+
     setSelected(!selected);
     selectedDays.includes(number)
       ? setSelectedDays(selectedDays.filter((value) => value !== number))
-      : setSelectedDays([...selectedDays, number]);
+      : setSelectedDays([...selectedSorted]);
   }
 
   return (

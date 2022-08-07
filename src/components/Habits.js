@@ -9,7 +9,7 @@ import { ThreeDots } from "react-loader-spinner";
 import HabitsContent from "./HabitsContent";
 
 export default function Habits() {
-  const { userData, setUserData, progress } = useContext(UserContext);
+  const { userData, } = useContext(UserContext);
   const [habitsList, setHabitsList] = useState(null);
   const [create, setCreate] = useState(false);
   const [name, setName] = useState("");

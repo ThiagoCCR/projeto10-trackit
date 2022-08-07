@@ -11,9 +11,10 @@ export default function App() {
   const [userData, setUserData] = useState({image:"", token:""});
   const [loading, setLoading ] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [selectedDays, setSelectedDays] = useState([]);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData, loading,  setLoading, progress, setProgress}}>
+    <UserContext.Provider value={{ userData, setUserData, selectedDays, setSelectedDays, loading,  setLoading, progress, setProgress}}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />} />

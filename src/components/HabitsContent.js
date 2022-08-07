@@ -35,7 +35,7 @@ export default function HabitsContent({ habitsList, GetHabit }) {
             </div>
             <DaysContainer>
               {days.map((day, i) => (
-                <Day name={i} selected={value.days.includes(i)}>
+                <Day key={day+i} name={i} selected={value.days.includes(i)}>
                   {day}
                 </Day>
               ))}
