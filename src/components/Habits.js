@@ -13,7 +13,6 @@ export default function Habits() {
   const [habitsList, setHabitsList] = useState(null);
   const [create, setCreate] = useState(false);
   const [name, setName] = useState("");
-  console.log(progress)
 
   useEffect(() => GetHabits(), []);
 
@@ -25,10 +24,9 @@ export default function Habits() {
     };
     GetHabitsAPI(config)
       .then((res) => {
-        console.log(res.data)
         setHabitsList(res.data);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => alert("Erro ao pegar os hábitos"));
   }
 
   function addHabit() {

@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { deleteHabitAPI } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 import { useContext } from "react";
+import days from "../constants/days";
 
 export default function HabitsContent({ habitsList, GetHabit }) {
   const { userData, setUserData } = useContext(UserContext);
@@ -13,13 +14,14 @@ export default function HabitsContent({ habitsList, GetHabit }) {
       },
     };
     if (window.confirm("Tem certeza que deseja excluir essa hábito")) {
-      deleteHabitAPI(id, config).then(()=>{
-        alert("Habito deletado com sucesso!");
-        GetHabit();
-      }).catch((err)=>{
-        alert('Erro ao deletar o Habito')
-      })
-      
+      deleteHabitAPI(id, config)
+        .then(() => {
+          alert("Habito deletado com sucesso!");
+          GetHabit();
+        })
+        .catch((err) => {
+          alert("Erro ao deletar o Habito");
+        });
     }
   }
 
@@ -32,27 +34,11 @@ export default function HabitsContent({ habitsList, GetHabit }) {
               <h2>{value.name}</h2>
             </div>
             <DaysContainer>
-              <Day name={"0"} selected={value.days.includes(0)}>
-                D
-              </Day>
-              <Day name={"1"} selected={value.days.includes(1)}>
-                S
-              </Day>
-              <Day name={"2"} selected={value.days.includes(2)}>
-                T
-              </Day>
-              <Day name={"3"} selected={value.days.includes(3)}>
-                Q
-              </Day>
-              <Day name={"4"} selected={value.days.includes(4)}>
-                Q
-              </Day>
-              <Day name={"5"} selected={value.days.includes(5)}>
-                S
-              </Day>
-              <Day name={"6"} selected={value.days.includes(6)}>
-                S
-              </Day>
+              {days.map((day, i) => (
+                <Day name={i} selected={value.days.includes(i)}>
+                  {day}
+                </Day>
+              ))}
             </DaysContainer>
             <IconContainer>
               <ion-icon

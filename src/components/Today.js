@@ -40,7 +40,6 @@ export default function Today() {
     };
     gettodayHabits(config)
       .then((res) => {
-        console.log(res.data);
         setTodayHabits(res.data);
         setCheckedHabits(res.data.filter((val) => val.done === true).length);
       })

@@ -4,6 +4,7 @@ import DayButton from "./DayButton";
 import { createHabit } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 import { ThreeDots } from "react-loader-spinner";
+import days from "../constants/days";
 
 export default function CreateHabit({
   create,
@@ -16,7 +17,6 @@ export default function CreateHabit({
   const { loading, setLoading } = useContext(UserContext);
   const { userData } = useContext(UserContext);
   const [selectedDays, setSelectedDays] = useState([]);
-  const days = ["D", "S", "T", "Q", "Q", "S", "S"];
 
   function handleForm(e) {
     e.preventDefault();
@@ -24,7 +24,6 @@ export default function CreateHabit({
       name,
       days: selectedDays,
     };
-    console.log({body})
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
@@ -38,7 +37,6 @@ export default function CreateHabit({
     } else {
       createHabit(body, config)
         .then((res) => {
-          console.log({res})
           GetHabits();
           setName("");
           setLoading(false);

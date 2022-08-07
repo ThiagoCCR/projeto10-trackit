@@ -18,7 +18,6 @@ export default function SignUp() {
   function handleSignUp(e) {
     setIsLoading(true);
     e.preventDefault();
-    console.log(formData);
     signUpAPI(formData)
       .then((res) => {
         setTimeout(setIsLoading(false), 3000);
