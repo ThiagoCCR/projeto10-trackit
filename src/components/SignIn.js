@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import logo from "../assets/img/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 import UserContext from "../contexts/UserContext.js";
@@ -14,14 +14,34 @@ export default function Home() {
   const objAPI = { email: email, password: password };
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (localStorage.getItem("USER") !== null) {
+      let data = JSON.parse(localStorage.getItem("USER"));
+      setUserData({ ...userData, image: data.image, token: data.token });
+      navigate("/hoje");
+    }
+  }, [navigate, setUserData, userData]);
+
   function handleData(e) {
     e.preventDefault();
     setIsLoading(true);
 
     SignInAPI(objAPI)
       .then((res) => {
-        setUserData({...userData, image:res.data.image, token:res.data.token});
+        setUserData({
+          ...userData,
+          image: res.data.image,
+          token: res.data.token,
+        });
         window.scrollTo(0, 0);
+        localStorage.setItem(
+          "USER",
+          JSON.stringify({
+            token: res.data.token,
+            image: res.data.image,
+            timestamp: +new Date(),
+          })
+        );
         setTimeout(navigate("/hoje"), 2000);
       })
       .catch((error) => {

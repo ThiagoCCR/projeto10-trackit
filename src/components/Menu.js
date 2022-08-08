@@ -10,11 +10,12 @@ export default function Menu() {
   const navigate = useNavigate();
   const { progress, userData, setProgress, habitsList } =
     useContext(UserContext);
+  const auth = JSON.parse(localStorage.getItem("USER"));
 
   useEffect(() => {
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${auth.token}`,
       },
     };
     gettodayHabits(config)
@@ -32,7 +33,7 @@ export default function Menu() {
       .catch((error) => {
         console.log("erro...");
       });
-  }, [progress, habitsList, userData.token, setProgress]);
+  }, [progress, habitsList, userData.token, setProgress, auth.token]);
 
   return (
     <Wrapper>

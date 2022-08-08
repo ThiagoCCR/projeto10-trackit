@@ -11,13 +11,13 @@ import locale from "dayjs/locale/pt-br";
 import { useNavigate } from "react-router-dom";
 
 export default function Today() {
-  const { userData, progress, setProgress} =
-    useContext(UserContext);
+  const { progress, setProgress } = useContext(UserContext);
   const [todayHabits, setTodayHabits] = useState(null);
   const [checkedHabits, setCheckedHabits] = useState(0);
   const Now = dayjs().locale("pt-br");
   const date = FormatDate(Now);
   const navigate = useNavigate();
+  const auth = JSON.parse(localStorage.getItem("USER"));
 
   useEffect(() => {
     if (todayHabits !== null) {
@@ -37,7 +37,7 @@ export default function Today() {
   const getHabits = useCallback(() => {
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${auth.token}`,
       },
     };
     gettodayHabits(config)
@@ -49,7 +49,7 @@ export default function Today() {
         alert("Erro em buscar os habitos de hoje...");
         navigate("/");
       });
-  }, [userData.token, navigate]);
+  }, [navigate, auth.token]);
 
   useEffect(() => getHabits(), [getHabits]);
 

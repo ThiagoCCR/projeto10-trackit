@@ -1,29 +1,41 @@
 import styled from "styled-components";
 import Menu from "./Menu";
 import Header from "./Header";
-import { useState, useEffect, useContext, useCallback } from "react";
+import {
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import UserContext from "../contexts/UserContext";
 import { GetHabitsAPI } from "../services/trackit";
 import CreateHabit from "./CreateHabit";
 import { ThreeDots } from "react-loader-spinner";
 import HabitsContent from "./HabitsContent";
+import {  useNavigate} from "react-router-dom"
 
 export default function Habits() {
-  const { userData, habitsList, setHabitsList } = useContext(UserContext);
+  const { habitsList, setHabitsList } = useContext(UserContext);
   const [create, setCreate] = useState(false);
+  const navigate = useNavigate();
+  
 
   const GetHabits = useCallback(() => {
+    const auth = JSON.parse(localStorage.getItem("USER"));
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${auth.token}`,
       },
     };
     GetHabitsAPI(config)
       .then((res) => {
         setHabitsList(res.data);
       })
-      .catch((error) => alert("Erro ao pegar os hábitos"));
-  }, [userData.token, setHabitsList]);
+      .catch((error) => {
+        alert("Erro ao pegar os hábitos");
+        navigate("/");
+      });
+  }, [setHabitsList, navigate]);
 
   useEffect(() => GetHabits(), [GetHabits]);
 

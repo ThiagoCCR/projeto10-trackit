@@ -1,15 +1,13 @@
-import UserContext from "../contexts/UserContext.js";
-import { useContext } from "react";
 import styled from "styled-components";
 
 export default function Header() {
-  const { userData } = useContext(UserContext);
+  const auth = JSON.parse(localStorage.getItem("USER"));
 
   return (
     <>
       <Wrapper>
         <h1>TrackIt</h1>
-        <img alt="UserImg" src={userData.image} />
+        <img alt="UserImg" src={auth.image} />
       </Wrapper>
     </>
   );
