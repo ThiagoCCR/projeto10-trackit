@@ -8,6 +8,7 @@ import { ThreeDots } from "react-loader-spinner";
 import TodayHabit from "./TodayHabit";
 import dayjs from "dayjs";
 import locale from "dayjs/locale/pt-br";
+import { useNavigate } from "react-router-dom";
 
 export default function Today() {
   const { userData, progress, setProgress, habitsList } =
@@ -16,6 +17,7 @@ export default function Today() {
   const [checkedHabits, setCheckedHabits] = useState(0);
   const Now = dayjs().locale("pt-br");
   const date = FormatDate(Now);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (todayHabits !== null) {
@@ -45,8 +47,9 @@ export default function Today() {
       })
       .catch((error) => {
         alert("Erro em buscar os habitos de hoje...");
+        navigate("/");
       });
-  }, [userData.token]);
+  }, [userData.token, navigate]);
 
   useEffect(() => getHabits(), [getHabits]);
 
