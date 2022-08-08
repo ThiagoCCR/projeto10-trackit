@@ -1,16 +1,14 @@
 import styled from "styled-components";
 import { deleteHabitAPI } from "../services/trackit";
-import UserContext from "../contexts/UserContext";
-import { useContext } from "react";
 import days from "../constants/days";
 
 export default function HabitsContent({ habitsList, GetHabit }) {
-  const { userData } = useContext(UserContext);
+  const auth = JSON.parse(localStorage.getItem("USER"));
 
   function deleteHabit(id) {
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${auth.token}`,
       },
     };
     if (window.confirm("Tem certeza que deseja excluir essa hábito")) {
@@ -35,7 +33,7 @@ export default function HabitsContent({ habitsList, GetHabit }) {
             </div>
             <DaysContainer>
               {days.map((day, i) => (
-                <Day key={day+i} name={i} selected={value.days.includes(i)}>
+                <Day key={day + i} name={i} selected={value.days.includes(i)}>
                   {day}
                 </Day>
               ))}

@@ -12,8 +12,9 @@ export default function CreateHabit({
   setHabitsList,
   GetHabits,
 }) {
-  const { loading, setLoading, selectedDays, userData, name, setName } =
+  const { loading, setLoading, selectedDays, name, setName } =
     useContext(UserContext);
+  const auth = JSON.parse(localStorage.getItem("USER"));
 
   function handleForm(e) {
     e.preventDefault();
@@ -23,7 +24,7 @@ export default function CreateHabit({
     };
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${auth.token}`,
       },
     };
     setLoading(true);

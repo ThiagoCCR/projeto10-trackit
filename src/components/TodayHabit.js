@@ -1,10 +1,6 @@
-import { useState, useContext, } from "react";
+import { useState} from "react";
 import styled from "styled-components";
-import {
-  checkHabitAPI,
-  uncheckHabitAPI,
-} from "../services/trackit";
-import UserContext from "../contexts/UserContext";
+import { checkHabitAPI, uncheckHabitAPI } from "../services/trackit";
 
 export default function TodayHabit({
   data,
@@ -14,12 +10,12 @@ export default function TodayHabit({
   calculateProgress,
 }) {
   const [checked, setChecked] = useState(data.done);
-  const { userData } = useContext(UserContext);
+  const auth = JSON.parse(localStorage.getItem("USER"));
 
   function checkIcon() {
     const config = {
       headers: {
-        Authorization: `Bearer ${userData.token}`,
+        Authorization: `Bearer ${auth.token}`,
       },
     };
 

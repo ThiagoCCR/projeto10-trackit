@@ -9,7 +9,7 @@ export default function PrivatePage({ children }) {
   const auth = JSON.parse(localStorage.getItem("USER"));
 
   useEffect(() => {
-    if (auth.timestamp === null || auth.token === null) {
+    if (localStorage.getItem("USER") === null) {
       alert("faça login");
       return <Navigate to="/" />;
     }
