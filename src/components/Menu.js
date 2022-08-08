@@ -41,7 +41,7 @@ export default function Menu() {
       <ProgressBar onClick={() => navigate("/hoje")}>
         <CircularProgressbar
           value={progress}
-          text={`Menu`}
+          text={`Hoje`}
           background
           backgroundPadding={6}
           styles={buildStyles({
