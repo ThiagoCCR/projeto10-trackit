@@ -11,7 +11,7 @@ import locale from "dayjs/locale/pt-br";
 import { useNavigate } from "react-router-dom";
 
 export default function Today() {
-  const { userData, progress, setProgress, habitsList } =
+  const { userData, progress, setProgress} =
     useContext(UserContext);
   const [todayHabits, setTodayHabits] = useState(null);
   const [checkedHabits, setCheckedHabits] = useState(0);
@@ -27,7 +27,7 @@ export default function Today() {
         setProgress(result);
       }
     }
-  }, [todayHabits, checkedHabits, setProgress, habitsList]);
+  }, [todayHabits, checkedHabits, setProgress]);
 
   function FormatDate(string) {
     string = string.format("dddd").replace("-feira", "");

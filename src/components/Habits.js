@@ -23,7 +23,7 @@ export default function Habits() {
         setHabitsList(res.data);
       })
       .catch((error) => alert("Erro ao pegar os hábitos"));
-  }, [userData.token]);
+  }, [userData.token, setHabitsList]);
 
   useEffect(() => GetHabits(), [GetHabits]);
 

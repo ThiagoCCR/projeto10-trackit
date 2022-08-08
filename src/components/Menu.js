@@ -1,16 +1,38 @@
 import { useNavigate } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import styled from "styled-components";
-import {
-  CircularProgressbar,
-  buildStyles,
-} from "react-circular-progressbar";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import { gettodayHabits } from "../services/trackit";
 import "react-circular-progressbar/dist/styles.css";
 import UserContext from "../contexts/UserContext";
 
 export default function Menu() {
   const navigate = useNavigate();
-  const { progress } = useContext(UserContext);
+  const { progress, userData, setProgress, habitsList } =
+    useContext(UserContext);
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userData.token}`,
+      },
+    };
+    gettodayHabits(config)
+      .then((res) => {
+        const total = res.data.length;
+        const totalDone = res.data.filter((val) => val.done === true).length;
+        const result = (totalDone / total) * 100;
+        if (!isNaN(result)) {
+          setProgress(result);
+        }
+        if (totalDone === 0 && total === 0) {
+          setProgress(0);
+        }
+      })
+      .catch((error) => {
+        console.log("erro...");
+      });
+  }, [progress, habitsList, userData.token, setProgress]);
 
   return (
     <Wrapper>
@@ -27,7 +49,8 @@ export default function Menu() {
             pathColor: "#fff",
             trailColor: "transparent",
           })}
-        />{""}
+        />
+        {""}
       </ProgressBar>
       <button onClick={() => navigate("/historico")}>Histórico</button>
     </Wrapper>
