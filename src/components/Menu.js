@@ -3,7 +3,6 @@ import { useContext } from "react";
 import styled from "styled-components";
 import {
   CircularProgressbar,
-  CircularProgressbarWithChildren,
   buildStyles,
 } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";

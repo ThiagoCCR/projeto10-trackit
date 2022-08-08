@@ -1,9 +1,8 @@
-import { useState, useEffect, useContext, useDebugValue } from "react";
+import { useState, useContext, } from "react";
 import styled from "styled-components";
 import {
   checkHabitAPI,
   uncheckHabitAPI,
-  gettodayHabits,
 } from "../services/trackit";
 import UserContext from "../contexts/UserContext";
 

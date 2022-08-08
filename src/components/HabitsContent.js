@@ -5,7 +5,7 @@ import { useContext } from "react";
 import days from "../constants/days";
 
 export default function HabitsContent({ habitsList, GetHabit }) {
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   function deleteHabit(id) {
     const config = {

@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import locale from "dayjs/locale/pt-br";
 
 export default function Today() {
-  const { userData, setUserData, progress, setProgress } =
+  const { userData, progress, setProgress } =
     useContext(UserContext);
   const [todayHabits, setTodayHabits] = useState(null);
   const [checkedHabits, setCheckedHabits] = useState(0);

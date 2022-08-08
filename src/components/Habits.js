@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import Menu from "./Menu";
 import Header from "./Header";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useCallback } from "react";
 import UserContext from "../contexts/UserContext";
 import { GetHabitsAPI } from "../services/trackit";
 import CreateHabit from "./CreateHabit";
@@ -14,7 +14,7 @@ export default function Habits() {
   const [create, setCreate] = useState(false);
   const [name, setName] = useState("");
 
-  useEffect(() => GetHabits(), []);
+  useEffect(() => GetHabits(), [GetHabits]);
 
   function GetHabits() {
     const config = {

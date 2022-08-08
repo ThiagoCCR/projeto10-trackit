@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useContext } from "react";
 import styled from "styled-components";
 import DayButton from "./DayButton";
 import { createHabit } from "../services/trackit";
@@ -14,10 +14,8 @@ export default function CreateHabit({
   name,
   setName
 }) {
-  const { loading, setLoading, selectedDays, setSelectedDays } = useContext(UserContext);
+  const { loading, setLoading, selectedDays } = useContext(UserContext);
   const { userData } = useContext(UserContext);
-
-  console.log(selectedDays)
 
   function handleForm(e) {
     e.preventDefault();

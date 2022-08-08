@@ -3,7 +3,7 @@ import { useContext } from "react";
 import styled from "styled-components";
 
 export default function Header() {
-  const { userData, setUserData } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
 
   return (
     <>

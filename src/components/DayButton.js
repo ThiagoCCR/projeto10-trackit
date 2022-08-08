@@ -14,7 +14,6 @@ export default function DayButton({
 
   function handleDay(number) {
     const selectedSorted = [...selectedDays,number].sort();
-    console.log(selectedSorted)
 
     setSelected(!selected);
     selectedDays.includes(number)
