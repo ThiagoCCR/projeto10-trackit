@@ -10,13 +10,11 @@ export default function PrivatePage({ children }) {
 
   useEffect(() => {
     if (localStorage.getItem("USER") === null) {
-      alert("faça login");
       return <Navigate to="/" />;
     }
   }, [navigate, auth.timestamp, auth.token, children]);
 
   if (!auth) {
-    alert("faça login");
     return <Navigate to="/" />;
   }
 
