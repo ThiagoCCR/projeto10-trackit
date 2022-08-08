@@ -11,11 +11,9 @@ export default function CreateHabit({
   setCreate,
   setHabitsList,
   GetHabits,
-  name,
-  setName
 }) {
-  const { loading, setLoading, selectedDays } = useContext(UserContext);
-  const { userData } = useContext(UserContext);
+  const { loading, setLoading, selectedDays, userData, name, setName } =
+    useContext(UserContext);
 
   function handleForm(e) {
     e.preventDefault();
@@ -67,19 +65,23 @@ export default function CreateHabit({
                 key={i}
                 number={i}
                 day={value}
-                isSelected = {selectedDays.includes(i)}
+                isSelected={selectedDays.includes(i)}
               />
             ))}
           </DaysContainer>
           <OptionsContainer>
-            <Cancel disabled ={loading} onClick={() => setCreate(!create)}>Cancelar</Cancel>
-            <Save disabled ={loading} type="submit">{loading ? (
-                  <div>
-                    <ThreeDots color="#ffffff" />
-                  </div>
-                ) : (
-                  <p>Salvar</p>
-                )}</Save>
+            <Cancel disabled={loading} onClick={() => setCreate(!create)}>
+              Cancelar
+            </Cancel>
+            <Save disabled={loading} type="submit">
+              {loading ? (
+                <div>
+                  <ThreeDots color="#ffffff" />
+                </div>
+              ) : (
+                <p>Salvar</p>
+              )}
+            </Save>
           </OptionsContainer>
         </form>
       </Wrapper>

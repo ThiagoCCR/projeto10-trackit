@@ -3,18 +3,35 @@ import { useState } from "react";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import UserContext from "../contexts/UserContext.js";
-import Habits from "./Habits"
-import Today from "./Today"
+import Habits from "./Habits";
+import Today from "./Today";
 import History from "./History";
 
 export default function App() {
-  const [userData, setUserData] = useState({image:"", token:""});
-  const [loading, setLoading ] = useState(false);
+  const [userData, setUserData] = useState({ image: "", token: "" });
+  const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
   const [selectedDays, setSelectedDays] = useState([]);
+  const [name, setName] = useState("");
+  const [habitsList, setHabitsList] = useState(null);
 
   return (
-    <UserContext.Provider value={{ userData, setUserData, selectedDays, setSelectedDays, loading,  setLoading, progress, setProgress}}>
+    <UserContext.Provider
+      value={{
+        habitsList,
+        setHabitsList,
+        name,
+        setName,
+        userData,
+        setUserData,
+        selectedDays,
+        setSelectedDays,
+        loading,
+        setLoading,
+        progress,
+        setProgress,
+      }}
+    >
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SignIn />} />

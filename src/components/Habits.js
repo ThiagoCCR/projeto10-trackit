@@ -9,14 +9,10 @@ import { ThreeDots } from "react-loader-spinner";
 import HabitsContent from "./HabitsContent";
 
 export default function Habits() {
-  const { userData, } = useContext(UserContext);
-  const [habitsList, setHabitsList] = useState(null);
+  const { userData, habitsList, setHabitsList } = useContext(UserContext);
   const [create, setCreate] = useState(false);
-  const [name, setName] = useState("");
 
-  useEffect(() => GetHabits(), [GetHabits]);
-
-  function GetHabits() {
+  const GetHabits = useCallback(() => {
     const config = {
       headers: {
         Authorization: `Bearer ${userData.token}`,
@@ -27,7 +23,9 @@ export default function Habits() {
         setHabitsList(res.data);
       })
       .catch((error) => alert("Erro ao pegar os hábitos"));
-  }
+  }, [userData.token]);
+
+  useEffect(() => GetHabits(), [GetHabits]);
 
   function addHabit() {
     setCreate(!create);
@@ -47,8 +45,6 @@ export default function Habits() {
             create={create}
             setCreate={setCreate}
             GetHabits={GetHabits}
-            name={name}
-            setName={setName}
           />
         ) : (
           <div></div>

@@ -10,7 +10,7 @@ import dayjs from "dayjs";
 import locale from "dayjs/locale/pt-br";
 
 export default function Today() {
-  const { userData, progress, setProgress } =
+  const { userData, progress, setProgress, habitsList } =
     useContext(UserContext);
   const [todayHabits, setTodayHabits] = useState(null);
   const [checkedHabits, setCheckedHabits] = useState(0);
@@ -25,7 +25,7 @@ export default function Today() {
         setProgress(result);
       }
     }
-  }, [todayHabits, checkedHabits, setProgress]);
+  }, [todayHabits, checkedHabits, setProgress, habitsList]);
 
   function FormatDate(string) {
     string = string.format("dddd").replace("-feira", "");
